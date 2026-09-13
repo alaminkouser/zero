@@ -1,0 +1,3 @@
+pydantic-ai-slim[web]
+pydantic-ai-slim[mcp]
+pydantic-ai-slim[google]
