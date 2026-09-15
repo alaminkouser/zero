@@ -1,0 +1,22 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#_top"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "ds" [ref=e7] [cursor=pointer]:
+          - /url: /
+        - button "Search" [ref=e11] [cursor=pointer]
+    - main [ref=e17]:
+      - heading "For minds that linger words shaped by shadow and thought unfolding with deliberate care for those who question quietly and remain." [level=1] [ref=e20]
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - heading "Sections" [level=2] [ref=e25]
+          - link "Section titled “Sections”" [ref=e26] [cursor=pointer]:
+            - /url: "#sections"
+        - link "Philosophy" [ref=e33] [cursor=pointer]:
+          - /url: ./philosophy/
+        - link "Stories" [ref=e38] [cursor=pointer]:
+          - /url: ./stories/
+        - link "Thoughts" [ref=e43] [cursor=pointer]:
+          - /url: ./thoughts/

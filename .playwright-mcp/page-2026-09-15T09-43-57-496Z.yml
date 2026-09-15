@@ -1,0 +1,247 @@
+- generic [ref=f1e1]:
+  - banner [ref=f1e3]:
+    - generic [ref=f1e4]:
+      - generic [ref=f1e5]:
+        - button "Main menu" [ref=f1e6] [cursor=pointer]
+        - link "Google" [ref=f1e11] [cursor=pointer]:
+          - /url: /
+      - generic [ref=f1e13]:
+        - generic:
+          - generic:
+            - generic:
+              - button "Skip to main content" [ref=f1e14]
+              - button "Accessibility feedback" [ref=f1e17]
+        - generic [ref=f1e26]:
+          - button "Change appearance" [ref=f1e28]
+          - tooltip [aria-hidden] [ref=f1e31]: Change appearance
+      - generic [ref=f1e33]:
+        - button "Google apps" [ref=f1e37] [cursor=pointer]
+        - link "Sign in" [ref=f1e41] [cursor=pointer]:
+          - /url: https://accounts.google.com/ServiceLogin?service=searchandassistant&passive=1209600&continue=https://www.google.com/travel/flights&followup=https://www.google.com/travel/flights&ec=GAZAlQM
+  - generic [ref=f1e49]:
+    - heading "Flights" [level=1] [ref=f1e52]
+    - generic [ref=f1e53]:
+      - search "Flight" [ref=f1e55]:
+        - generic [ref=f1e57]:
+          - generic [ref=f1e58]:
+            - combobox "Change ticket type. Round trip" [ref=f1e63] [cursor=pointer]:
+              - generic [aria-hidden]:
+                - generic: Round trip
+            - button "1 passenger, change number of passengers." [ref=f1e69]:
+              - generic [ref=f1e72]: "1"
+            - combobox "Change seating class. Economy" [ref=f1e82] [cursor=pointer]:
+              - generic [aria-hidden]:
+                - generic: Economy
+          - generic [ref=f1e84]:
+            - generic [ref=f1e85]:
+              - generic [ref=f1e91]:
+                - combobox "Where from?" [ref=f1e92]: Dhaka
+                - generic [aria-hidden] [ref=f1e94]: Dhaka
+              - generic [ref=f1e98]:
+                - button "Swap origin and destination." [disabled]
+              - combobox "Where to?" [active] [ref=f1e105]
+            - generic [ref=f1e117]:
+              - textbox "Departure" [ref=f1e124]
+              - textbox "Return" [ref=f1e128]
+        - button "Explore destinations" [ref=f1e132]:
+          - generic [ref=f1e137]: Explore
+      - main [ref=f1e138]:
+        - generic [ref=f1e139]:
+          - generic [ref=f1e141]:
+            - generic [ref=f1e144]:
+              - heading "Flexible? Discover the best flight deals with AI" [level=2] [ref=f1e146]
+              - generic [ref=f1e147]: Describe your ideal trip, and let Google Flights find the best deals for you
+            - button "Explore deals with AI" [ref=f1e149]
+          - heading "Find and book cheap flights worldwide and track prices" [level=1] [ref=f1e153]
+          - generic [ref=f1e154]:
+            - generic [ref=f1e155]:
+              - heading "Find cheap flights from Bangladesh to anywhere" [level=2] [ref=f1e156]
+              - button "Learn more about this section" [ref=f1e159] [cursor=pointer]
+            - generic [ref=f1e163]:
+              - tablist [ref=f1e167]:
+                - tab "Dhaka" [selected] [ref=f1e168] [cursor=pointer]
+                - tab "Chattogram" [ref=f1e169] [cursor=pointer]
+                - tab "Sylhet" [ref=f1e170] [cursor=pointer]
+                - tab "Cox's Bazar" [ref=f1e171] [cursor=pointer]
+              - list [ref=f1e172]:
+                - listitem [ref=f1e173]:
+                  - button "Find flights from Dhaka (DAC) to Cox's Bazar (CXB) from BDT 8,697. Operated by US-Bangla Airlines. Sep 24 to Sep 30. Nonstop" [ref=f1e174] [cursor=pointer]:
+                    - generic [ref=f1e175]:
+                      - generic [ref=f1e176]: Dhaka
+                      - generic [ref=f1e179]: Cox's Bazar
+                    - generic [ref=f1e180]:
+                      - generic [ref=f1e181]: Sep 24 — Sep 30
+                      - generic [ref=f1e182]:
+                        - generic [aria-hidden] [ref=f1e183]: ·
+                        - text: Nonstop
+                    - generic [ref=f1e184]: from BDT 8,697
+                - listitem [ref=f1e189]:
+                  - button "Find flights from Dhaka (DAC) to Sylhet (ZYL) from BDT 8,097. Operated by US-Bangla Airlines. Sep 18 to Sep 24. Nonstop" [ref=f1e190] [cursor=pointer]:
+                    - generic [ref=f1e191]:
+                      - generic [ref=f1e192]: Dhaka
+                      - generic [ref=f1e195]: Sylhet
+                    - generic [ref=f1e196]:
+                      - generic [ref=f1e197]: Sep 18 — Sep 24
+                      - generic [ref=f1e198]:
+                        - generic [aria-hidden] [ref=f1e199]: ·
+                        - text: Nonstop
+                    - generic [ref=f1e200]: from BDT 8,097
+                - listitem [ref=f1e205]:
+                  - button "Find flights from Dhaka (DAC) to Chattogram (CGP) from BDT 8,097. Operated by US-Bangla Airlines. Sep 17 to Sep 23. Nonstop" [ref=f1e206] [cursor=pointer]:
+                    - generic [ref=f1e207]:
+                      - generic [ref=f1e208]: Dhaka
+                      - generic [ref=f1e211]: Chattogram
+                    - generic [ref=f1e212]:
+                      - generic [ref=f1e213]: Sep 17 — Sep 23
+                      - generic [ref=f1e214]:
+                        - generic [aria-hidden] [ref=f1e215]: ·
+                        - text: Nonstop
+                    - generic [ref=f1e216]: from BDT 8,097
+                - text: · · · · · · ·
+              - generic [ref=f1e221]:
+                - button "Explore more destinations from Dhaka" [ref=f1e222] [cursor=pointer]
+                - button [aria-hidden] [ref=f1e223]:
+                  - generic [ref=f1e226]: Explore destinations
+          - generic [ref=f1e227]:
+            - heading "Useful tools to help you find the best airline tickets" [level=2] [ref=f1e228]
+            - generic [ref=f1e229]:
+              - tablist [ref=f1e230]:
+                - tab "Find the cheapest days to fly The Date grid and Price graph make it easy to find the best flight deals" [selected] [ref=f1e231] [cursor=pointer]:
+                  - generic [ref=f1e235]:
+                    - generic [ref=f1e236]: Find the cheapest days to fly
+                    - generic [ref=f1e237]: The Date grid and Price graph make it easy to find the best flight deals
+                - tab "Know when to book with price insights Price history and trend data show you the best time to book your airline ticket to get the cheapest price for your flight" [ref=f1e238] [cursor=pointer]:
+                  - generic [ref=f1e242]:
+                    - generic [ref=f1e243]: Know when to book with price insights
+                    - generic [ref=f1e244]: Price history and trend data show you the best time to book your airline ticket to get the cheapest price for your flight
+                - tab "Track flight prices for a trip Not ready to book yet? Observe price changes for a route or flight and get notified when prices drop." [ref=f1e245] [cursor=pointer]:
+                  - generic [ref=f1e250]:
+                    - generic [ref=f1e251]: Track flight prices for a trip
+                    - generic [ref=f1e252]: Not ready to book yet? Observe price changes for a route or flight and get notified when prices drop.
+                - tab "Explore the best flight deals with AI Describe your ideal trip and let Google Flights find you the best deals" [ref=f1e253] [cursor=pointer]:
+                  - generic [ref=f1e257]:
+                    - generic [ref=f1e258]: Explore the best flight deals with AI
+                    - generic [ref=f1e259]: Describe your ideal trip and let Google Flights find you the best deals
+              - tabpanel "Find the cheapest days to fly The Date grid and Price graph make it easy to find the best flight deals" [ref=f1e260]:
+                - generic [ref=f1e261]: Insightful tools help you choose your trip dates
+                - generic [ref=f1e262]: If your travel plans are flexible, use the form above to start searching for a specific trip. Then, play around with the Date grid and Price graph options on the Search page to find the cheapest days to fly and book your tickets.
+          - generic [ref=f1e264]:
+            - heading "Popular flight destinations from Bangladesh" [level=2] [ref=f1e265]
+            - generic [ref=f1e268]:
+              - link "City image for London London" [ref=f1e270] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-london.html
+                - img "City image for London" [ref=f1e272]
+                - generic [ref=f1e273]: London
+              - link "City image for Jeddah Jeddah" [ref=f1e275] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-jeddah.html
+                - img "City image for Jeddah" [ref=f1e277]
+                - generic [ref=f1e278]: Jeddah
+              - link "City image for Dubai Dubai" [ref=f1e280] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-dubai.html
+                - img "City image for Dubai" [ref=f1e282]
+                - generic [ref=f1e283]: Dubai
+              - link "City image for Riyadh Riyadh" [ref=f1e285] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-riyadh.html
+                - img "City image for Riyadh" [ref=f1e287]
+                - generic [ref=f1e288]: Riyadh
+              - link "City image for Doha Doha" [ref=f1e290] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-doha.html
+                - img "City image for Doha" [ref=f1e292]
+                - generic [ref=f1e293]: Doha
+              - link "City image for Istanbul Istanbul" [ref=f1e295] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-istanbul.html
+                - img "City image for Istanbul" [ref=f1e297]
+                - generic [ref=f1e298]: Istanbul
+              - link "City image for Dammam Dammam" [ref=f1e300] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-dammam.html
+                - img "City image for Dammam" [ref=f1e302]
+                - generic [ref=f1e303]: Dammam
+              - link "City image for Cairo Cairo" [ref=f1e305] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-cairo.html
+                - img "City image for Cairo" [ref=f1e307]
+                - generic [ref=f1e308]: Cairo
+              - link "City image for Paris Paris" [ref=f1e310] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-paris.html
+                - img "City image for Paris" [ref=f1e312]
+                - generic [ref=f1e313]: Paris
+              - link "City image for Kuwait City Kuwait City" [ref=f1e315] [cursor=pointer]:
+                - /url: https://www.google.com/travel/flights/flights-to-kuwait-city.html
+                - img "City image for Kuwait City" [ref=f1e317]
+                - generic [ref=f1e318]: Kuwait City
+          - generic [ref=f1e319]:
+            - heading "Frequently asked questions" [level=2] [ref=f1e321]
+            - group "Frequently asked questions" [ref=f1e322]:
+              - generic [ref=f1e324] [cursor=pointer]:
+                - generic [aria-hidden] [ref=f1e325]: What are some good flight destinations from Bangladesh?
+                - button "What are some good flight destinations from Bangladesh?" [ref=f1e328]
+              - generic [ref=f1e334] [cursor=pointer]:
+                - generic [aria-hidden] [ref=f1e335]: How can I find last-minute flight deals?
+                - button "How can I find last-minute flight deals?" [ref=f1e338]
+              - generic [ref=f1e344] [cursor=pointer]:
+                - generic [aria-hidden] [ref=f1e345]: How can I find cheap flights for a weekend getaway?
+                - button "How can I find cheap flights for a weekend getaway?" [ref=f1e348]
+              - generic [ref=f1e354] [cursor=pointer]:
+                - generic [aria-hidden] [ref=f1e355]: How can I find flight deals if my travel plans are flexible?
+                - button "How can I find flight deals if my travel plans are flexible?" [ref=f1e358]
+              - generic [ref=f1e364] [cursor=pointer]:
+                - generic [aria-hidden] [ref=f1e365]: How can I find cheap flights to anywhere?
+                - button "How can I find cheap flights to anywhere?" [ref=f1e368]
+              - generic [ref=f1e374] [cursor=pointer]:
+                - generic [aria-hidden] [ref=f1e375]: How can I get flight alerts for my trip?
+                - button "How can I get flight alerts for my trip?" [ref=f1e378]
+          - heading "Search more flights" [level=2] [ref=f1e383]
+          - generic [ref=f1e384]:
+            - heading "Find cheap flights on popular routes" [level=3] [ref=f1e385]
+            - generic [ref=f1e387]:
+              - tablist [ref=f1e388]:
+                - generic [ref=f1e391]:
+                  - tab "Flights from cities in Bangladesh" [selected] [ref=f1e393] [cursor=pointer]
+                  - tab "International flights from Bangladesh" [ref=f1e396] [cursor=pointer]
+              - tabpanel "Flights from cities in Bangladesh" [ref=f1e399]:
+                - generic [ref=f1e401]:
+                  - link "Flights from Dhaka" [ref=f1e402] [cursor=pointer]:
+                    - /url: https://www.google.com/travel/flights/flights-from-dhaka.html
+                  - link "Flights from Chattogram" [ref=f1e403] [cursor=pointer]:
+                    - /url: https://www.google.com/travel/flights/flights-from-chattogram.html
+                  - link "Flights from Sylhet" [ref=f1e404] [cursor=pointer]:
+                    - /url: https://www.google.com/travel/flights/flights-from-sylhet.html
+                  - link "Flights from Cox's Bazar" [ref=f1e405] [cursor=pointer]:
+                    - /url: https://www.google.com/travel/flights/flights-from-coxs-bazar.html
+                  - link "Flights from Saidpur" [ref=f1e406] [cursor=pointer]:
+                    - /url: https://www.google.com/travel/flights/flights-from-saidpur.html
+                  - link "Flights from Rajshahi" [ref=f1e407] [cursor=pointer]:
+                    - /url: https://www.google.com/travel/flights/flights-from-rajshahi.html
+      - contentinfo [ref=f1e410]:
+        - generic [ref=f1e412]:
+          - button "Language·English (United States)" [ref=f1e413]
+          - button "Location·Bangladesh" [ref=f1e419]
+          - button "Currency BDT" [ref=f1e426]:
+            - generic [aria-hidden] [ref=f1e439]: Currency·BDT
+        - generic [ref=f1e440]:
+          - paragraph [ref=f1e441]: "Current language and currency options applied: English (United States) - Bangladesh - BDT"
+          - paragraph [ref=f1e442]:
+            - text: Displayed currencies may differ from the currencies used to purchase flights.
+            - link "Learn more about currencies" [ref=f1e443] [cursor=pointer]:
+              - /url: https://www.google.com/googlefinance/disclaimer?hl=en-US&gl=BD
+              - text: Learn more
+        - generic [ref=f1e444]:
+          - link "About Google Travel" [ref=f1e445] [cursor=pointer]:
+            - /url: https://about.google/?hl=en-US
+            - text: About
+          - link "Privacy" [ref=f1e446] [cursor=pointer]:
+            - /url: https://policies.google.com/privacy?hl=en-US
+          - link "Terms" [ref=f1e447] [cursor=pointer]:
+            - /url: https://policies.google.com/terms?hl=en-US
+          - link "Join user studies" [ref=f1e448] [cursor=pointer]:
+            - /url: https://google.qualtrics.com/jfe/form/SV_3NMIMtX0F2zkakR?reserved%3D1%26utm_source%3DFooter%2520link%26utm_medium%3Down_web%26%20utm_campaign%3DQ2%26productTag%3D0%26campaignDate%3DApril2020%26referral_code%3DUXbJ377133&Q_Language=en-US
+          - link "Feedback" [ref=f1e449] [cursor=pointer]:
+            - /url: ./#0
+          - link "Help Center" [ref=f1e450] [cursor=pointer]:
+            - /url: https://support.google.com/travel/?hl=en-US#topic=2475360
+        - generic [ref=f1e452]:
+          - generic [ref=f1e456]:
+            - generic [aria-hidden] [ref=f1e457] [cursor=pointer]: International sites
+            - button "International sites" [ref=f1e460]
+          - generic [ref=f1e468]:
+            - generic [aria-hidden] [ref=f1e469] [cursor=pointer]: Explore flights
+            - button "Explore flights" [ref=f1e472]

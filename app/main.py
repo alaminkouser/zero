@@ -1,7 +1,7 @@
 import os
 from pydantic_ai import Agent
-from pydantic_ai.models.google import GoogleModel
-from pydantic_ai.providers.google import GoogleProvider
+from pydantic_ai.models.openai import OpenAIChatModel
+from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.mcp import MCPToolset
 from fastmcp.client import Client
 from fastmcp.client.transports import StdioTransport, StreamableHttpTransport
@@ -10,9 +10,9 @@ from .tools.current_datetime import current_datetime
 from .tools.email_read_unseen import email_read_unseen
 from .tools.status_put import status_put
 
-model = GoogleModel(
-    "gemma-4-26b-a4b-it",  # "gemma-4-31b-it",
-    provider=GoogleProvider(api_key=os.getenv("GOOGLE_API_KEY")),
+model = OpenAIChatModel(
+    "llama",
+    provider=OpenAIProvider(base_url="http://127.0.0.1:8080/v1"),
 )
 
 agent = Agent(
