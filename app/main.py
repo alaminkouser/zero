@@ -38,6 +38,13 @@ agent = Agent(
                 )
             )
         ),
+        MCPToolset(
+            Client(
+                StreamableHttpTransport(
+                    "https://mcp.firecrawl.dev/" + os.getenv("FIRECRAWL_API_KEY", "") + "/v2/mcp"
+                )
+            )
+        ),
     ],
 )
 
