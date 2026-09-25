@@ -1,7 +1,7 @@
 import os
 from pydantic_ai import Agent
-from pydantic_ai.models.openai import OpenAIChatModel
-from pydantic_ai.providers.openai import OpenAIProvider
+from pydantic_ai.models.openrouter import OpenRouterModel
+from pydantic_ai.providers.openrouter import OpenRouterProvider
 from pydantic_ai.mcp import MCPToolset
 from fastmcp.client import Client
 from fastmcp.client.transports import StdioTransport, StreamableHttpTransport
@@ -10,9 +10,9 @@ from .tools.current_datetime import current_datetime
 from .tools.email_read_unseen import email_read_unseen
 from .tools.status_put import status_put
 
-model = OpenAIChatModel(
-    "llama",
-    provider=OpenAIProvider(base_url="http://127.0.0.1:8080/v1"),
+model = OpenRouterModel(
+    "openrouter/free",
+    provider=OpenRouterProvider(api_key=os.getenv("OPENROUTER_API_KEY", "")),
 )
 
 agent = Agent(
@@ -47,5 +47,3 @@ agent = Agent(
         ),
     ],
 )
-
-app = agent.to_web(html_source="./pydantic-ai-ui.html")
