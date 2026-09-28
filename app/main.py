@@ -29,7 +29,7 @@ agent = Agent(
                 command="npx",
                 args=["@bitbonsai/mcpvault", os.getenv("NOTEBOOK_PATH", "")],
             ),
-        ),
+        ).prefixed("notebook"),
         MCPToolset(
             StdioTransport(
                 command="npx",
@@ -41,14 +41,14 @@ agent = Agent(
                 command="npx",
                 args=["@playwright/mcp@latest"],
             )
-        ),
+        ).prefixed("playwright"),
         MCPToolset(
             Client(
                 StreamableHttpTransport(
                     "https://mcp.serpapi.com/" + os.getenv("SERP_API_KEY", "") + "/mcp"
                 )
             )
-        ),
+        ).prefixed("serpapi"),
         MCPToolset(
             Client(
                 StreamableHttpTransport(
@@ -57,7 +57,7 @@ agent = Agent(
                     + "/v2/mcp"
                 )
             )
-        ),
+        ).prefixed("firecrawl"),
     ],
     instructions=(
         "# Terminology and User Identity",

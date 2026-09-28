@@ -1,6 +1,6 @@
 ---
 name: notebook
-description: >
+description:
   Maintain and organize the repository as a structured,
   Zettelkasten-style Markdown knowledge base while preserving its existing
   conventions and tooling.
