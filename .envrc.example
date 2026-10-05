@@ -1,0 +1,8 @@
+export PYDANTIC_AI_NO_BANNER=""
+export OPENROUTER_API_KEY=""
+export NOTEBOOK_PATH=""
+export SERP_API_KEY=""
+export IMAP_SERVER_NAME=""
+export IMAP_USER=""
+export IMAP_PASSWORD=""
+export FIRECRAWL_API_KEY=""

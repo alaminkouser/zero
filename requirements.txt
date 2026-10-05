@@ -1,5 +1,4 @@
-pydantic-ai-slim[web]
 pydantic-ai-slim[mcp]
-pydantic-ai-harness[skills]
-
 pydantic-ai-slim[openrouter]
+pydantic-ai-harness[skills]
+streamlit
