@@ -20,7 +20,7 @@ agent = Agent(
         provider=OpenRouterProvider(api_key=os.getenv("OPENROUTER_API_KEY", "")),
     ),
     capabilities=[LocalWorkspace("."), Memory(InMemoryStore()), Skills("app/skills")],
-    tools=[current_datetime, email_read_unseen, status_put],
+    # tools=[current_datetime, email_read_unseen, status_put],
     # toolsets=[
     #     MCPToolset(
     #         StdioTransport(

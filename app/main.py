@@ -1,13 +1,16 @@
+import asyncio
 import streamlit as st
 from typing import Sequence
-from pydantic_ai.messages import ModelMessage
+from pydantic_ai.messages import ModelMessage, ThinkingPart
+from pydantic_ai.result import StreamedRunResult
+from pydantic_ai.run import AgentRunResultEvent
 
 from agents.main import agent
 
 st.set_page_config(
     page_title="ZERO",
     page_icon="🤖",
-    layout="wide",
+    layout="centered",
 )
 
 st.title("Agent Zero")
@@ -20,20 +23,39 @@ if "message_list" not in st.session_state:
     message_list: Sequence[ModelMessage] = []
     st.session_state.message_list = message_list
 
-for message in st.session_state.message_list:
-    with st.chat_message(message.kind):
-        st.write(message)
+if "ssr_list" not in st.session_state:
+    ssr_list: list[StreamedRunResult] = []
+    st.session_state.ssr_list = ssr_list
 
-def handle_submit():
+for message in st.session_state.message_list:
+    avatar = "human"
+    if message.kind == "response":
+        avatar = "ai"
+    with st.chat_message(avatar):
+        for part in message.parts:
+            if isinstance(part, ThinkingPart):
+                st.markdown(part.content)
+
+async def handle_submit_async():
     st.session_state.processing = True
     user_prompt = st.session_state.prompt_box
-    r = agent.run_sync(
-        user_prompt=user_prompt,
-        message_history=st.session_state.message_list
-    )
-    st.session_state.message_list = r.all_messages()
-    st.write(r.all_messages) 
 
+    try:
+        async with agent.run_stream_events(
+            user_prompt=user_prompt,
+            message_history=st.session_state.message_list,
+        ) as events:
+            async for event in events:
+                if isinstance(event, AgentRunResultEvent):
+                    st.session_state.message_list = event.result.all_messages()
+
+    finally:
+
+        st.session_state.processing = False
+
+
+def handle_submit():
+    asyncio.run(handle_submit_async())
 
 
 st.chat_input(
