@@ -59,6 +59,7 @@ for message in st.session_state.message_list:
 
 user_prompt_part = st.empty()
 current_events = st.empty()
+processing = st.empty()
 
 error = st.empty()
 
@@ -69,16 +70,17 @@ async def handle_submit_async():
         st.text(user_prompt)
 
     try:
-        agent_main = agent()
-        async with agent_main.run_stream_events(
-            user_prompt=user_prompt,
-            message_history=st.session_state.message_list,
-        ) as events:
-            async for event in events:
-                with current_events.chat_message("assistant"):
-                    st.write(event)
-                if isinstance(event, AgentRunResultEvent):
-                    st.session_state.message_list = event.result.all_messages()
+        with processing.spinner(text="", show_time=True):
+            agent_main = agent()
+            async with agent_main.run_stream_events(
+                user_prompt=user_prompt,
+                message_history=st.session_state.message_list,
+            ) as events:
+                async for event in events:
+                    with current_events.chat_message("assistant"):
+                        st.write(event)
+                    if isinstance(event, AgentRunResultEvent):
+                        st.session_state.message_list = event.result.all_messages()
 
     except Exception as e:
         error.write(e)
