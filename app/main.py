@@ -1,7 +1,15 @@
 import asyncio
 import streamlit as st
-from typing import Any, Sequence
-from pydantic_ai.messages import ModelMessage, UserPromptPart, ThinkingPart, TextPart, ToolCallPart,  ToolReturnPart
+from typing import Sequence
+from pydantic_ai.messages import (
+    ModelMessage,
+    RetryPromptPart,
+    UserPromptPart,
+    ThinkingPart,
+    TextPart,
+    ToolCallPart,
+    ToolReturnPart,
+)
 from pydantic_ai.run import AgentRunResultEvent
 
 from agents.main import agent
@@ -12,24 +20,17 @@ st.set_page_config(
     layout="centered",
 )
 
-st.title("Agent Zero", text_alignment="center", anchor=False)
-
-if "processing" not in st.session_state:
-    st.session_state.processing = False
+st.title("~", text_alignment="center", anchor=False)
 
 if "message_list" not in st.session_state:
     message_list: Sequence[ModelMessage] = []
     st.session_state.message_list = message_list
 
-if "event_list" not in st.session_state:
-    event_list: Sequence[Any] = []
-    st.session_state.event_list = event_list
-
 for message in st.session_state.message_list:
     for part in message.parts:
         avatar = "human"
         if type(part).__name__ != "UserPromptPart":
-            avatar = "ai"
+            avatar = "assistant"
         if isinstance(part, UserPromptPart):
             with st.chat_message(avatar):
                 st.markdown(part.content)
@@ -37,43 +38,53 @@ for message in st.session_state.message_list:
             with st.chat_message(avatar):
                 st.markdown(part.content)
         elif isinstance(part, TextPart):
-            with st.chat_message(avatar):
-                st.markdown(part.content)
+            if part.content.strip() != "":
+                with st.chat_message(avatar):
+                    st.markdown(part.content.strip())
         elif isinstance(part, ToolCallPart):
             with st.chat_message(avatar):
-                st.write(part.tool_name)
                 if part.args_as_dict():
                     st.write(part.args_as_dict())
                 else:
+                    st.write(part.tool_name)
                     st.write(part)
         elif isinstance(part, ToolReturnPart):
             with st.chat_message(avatar):
                 st.write(part.content)
+        elif isinstance(part, RetryPromptPart):
+            with st.chat_message(avatar):
+                st.markdown(part.content)
         else:
             st.warning(type(part).__name__)
 
-
+user_prompt_part = st.empty()
 current_events = st.empty()
 
-async def handle_submit_async():
-    st.session_state.processing = True
-    user_prompt = st.session_state.prompt_box
+error = st.empty()
 
-    agent_main = agent()
+
+async def handle_submit_async():
+    user_prompt = st.session_state.prompt_box
+    with user_prompt_part.chat_message("human"):
+        st.text(user_prompt)
 
     try:
+        agent_main = agent()
         async with agent_main.run_stream_events(
             user_prompt=user_prompt,
             message_history=st.session_state.message_list,
         ) as events:
             async for event in events:
-                print(event.event_kind)
-                current_events.write(event.event_kind)
+                with current_events.chat_message("assistant"):
+                    st.write(event)
                 if isinstance(event, AgentRunResultEvent):
                     st.session_state.message_list = event.result.all_messages()
 
+    except Exception as e:
+        error.write(e)
+
     finally:
-        st.session_state.processing = False
+        user_prompt_part.empty()
 
 
 def handle_submit():
@@ -81,8 +92,8 @@ def handle_submit():
 
 
 st.chat_input(
-    placeholder="PROMPT", 
+    placeholder="PROMPT",
     key="prompt_box",
     on_submit=handle_submit,
-    disabled=st.session_state.processing
+    submit_mode="disable",
 )
