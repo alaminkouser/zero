@@ -1,4 +1,5 @@
 import asyncio
+from pydantic_ai import InstructionPart
 import streamlit as st
 from typing import Sequence
 from pydantic_ai.messages import (
@@ -70,18 +71,17 @@ async def handle_submit_async():
         st.text(user_prompt)
 
     try:
-        with processing.spinner(text="", show_time=True):
-            agent_main = agent()
-            async with agent_main.run_stream_events(
-                user_prompt=user_prompt,
-                message_history=st.session_state.message_list,
-                retries=10,
-            ) as events:
-                async for event in events:
-                    with current_events.chat_message("assistant"):
-                        st.write(event)
-                    if isinstance(event, AgentRunResultEvent):
-                        st.session_state.message_list = event.result.all_messages()
+        agent_main = agent()
+        async with agent_main.run_stream_events(
+            user_prompt=user_prompt,
+            message_history=st.session_state.message_list,
+            retries=10,
+        ) as events:
+            async for event in events:
+                with current_events.chat_message("assistant"):
+                    st.write(event)
+                if isinstance(event, AgentRunResultEvent):
+                    st.session_state.message_list = event.result.all_messages()
 
     except Exception as e:
         error.write(e)
@@ -91,7 +91,8 @@ async def handle_submit_async():
 
 
 def handle_submit():
-    asyncio.run(handle_submit_async())
+    with processing.spinner(text="", show_time=True):
+        asyncio.run(handle_submit_async())
 
 
 st.chat_input(
