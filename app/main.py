@@ -20,7 +20,7 @@ st.set_page_config(
     layout="centered",
 )
 
-st.title("~", text_alignment="center", anchor=False)
+st.title("🤖", text_alignment="center", anchor=False)
 
 if "message_list" not in st.session_state:
     message_list: Sequence[ModelMessage] = []
@@ -75,6 +75,7 @@ async def handle_submit_async():
             async with agent_main.run_stream_events(
                 user_prompt=user_prompt,
                 message_history=st.session_state.message_list,
+                retries=10,
             ) as events:
                 async for event in events:
                     with current_events.chat_message("assistant"):

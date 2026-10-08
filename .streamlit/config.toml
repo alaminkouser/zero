@@ -4,3 +4,6 @@ toolbarMode = "minimal"
 [theme]
 base = "dark"
 backgroundColor = "#000000"
+font="JetBrains Mono:https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap"
+codeFont="JetBrains Mono:https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap"
+headingFont="JetBrains Mono:https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap"

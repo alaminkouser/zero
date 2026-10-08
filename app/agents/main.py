@@ -9,13 +9,22 @@ from pydantic_ai.providers.openrouter import OpenRouterProvider
 from pydantic_ai.mcp import MCPToolset
 from fastmcp.client import Client
 from fastmcp.client.transports import StdioTransport, StreamableHttpTransport
+from jinja2 import Environment, FileSystemLoader
+import yaml
 
 from tools.current_datetime import current_datetime
 from tools.email_read_unseen import email_read_unseen
 from tools.status_put import status_put
 
 
+
 def agent() -> Agent:
+    config_file = open("config.yaml", "r", encoding="utf-8")
+    config = yaml.safe_load(config_file)
+    config_file.close()
+    template_env = Environment(loader=FileSystemLoader("app/templates"))
+
+    instructions = template_env.get_template("instructions.j2").render(config=config)
     return Agent(
         OpenRouterModel(
             "openrouter/free",
@@ -65,5 +74,5 @@ def agent() -> Agent:
                 )
             ).prefixed("firecrawl"),
         ],
-        instructions="OKAY",
+        instructions=instructions,
     )

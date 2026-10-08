@@ -2,3 +2,5 @@ pydantic-ai-slim[mcp]
 pydantic-ai-slim[openrouter]
 pydantic-ai-harness[skills]
 streamlit
+Jinja2
+PyYAML
