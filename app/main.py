@@ -40,14 +40,14 @@ for message in st.session_state.message_list:
 
         if isinstance(part, UserPromptPart):
             with st.chat_message(avatar):
-                st.markdown(part.content)
+                st.markdown(part.content, anchors=False)
         elif isinstance(part, ThinkingPart):
             with st.chat_message(avatar):
-                st.markdown(part.content)
+                st.markdown(part.content, anchors=False)
         elif isinstance(part, TextPart):
             if part.content.strip() != "":
                 with st.chat_message(avatar):
-                    st.markdown(part.content.strip())
+                    st.markdown(part.content.strip(), anchors=False)
         elif isinstance(part, ToolCallPart):
             with st.chat_message(avatar):
                 if part.args_as_dict():
@@ -61,7 +61,7 @@ for message in st.session_state.message_list:
                     st.write(part.content)
         elif isinstance(part, RetryPromptPart):
             with st.chat_message(avatar):
-                st.markdown(part.content)
+                st.markdown(part.content, anchors=False)
         else:
             st.warning("E:MESSAGE_LIST:MESSAGE:PART\n\n" + type(part).__name__)
 
@@ -107,11 +107,11 @@ def current_events_show(
         for item in streaming_content:
             if item.type == "THINKING":
                 with st.chat_message("assistant"):
-                    st.markdown(item.content)
+                    st.markdown(item.content, anchors=False)
             if item.type == "TEXT":
                 if item.content.strip() != "":
                     with st.chat_message("assistant"):
-                        st.markdown(item.content)
+                        st.markdown(item.content.strip(), anchors=False)
 
 
 async def handle_submit_async():
