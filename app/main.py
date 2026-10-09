@@ -1,4 +1,5 @@
 import asyncio
+from pydantic_ai import TextPartDelta
 import streamlit as st
 from typing import Sequence, Literal
 from pydantic import BaseModel
@@ -13,7 +14,7 @@ from pydantic_ai.messages import (
     PartStartEvent,
     PartDeltaEvent,
     PartEndEvent,
-    ThinkingPartDelta
+    ThinkingPartDelta,
 )
 from pydantic_ai.run import AgentRunResultEvent
 
@@ -71,9 +72,11 @@ processing = st.empty()
 
 error = st.empty()
 
+
 class StreamingContent(BaseModel):
     type: Literal["THINKING", "TEXT", ""] = ""
     content: str = ""
+
 
 def current_events_show(
     event_list: list[PartStartEvent | PartDeltaEvent | PartEndEvent],
@@ -82,28 +85,34 @@ def current_events_show(
     for event in event_list:
         if isinstance(event, PartStartEvent):
 
-            if isinstance(event.part, ThinkingPart):
-
+            if isinstance(event.part, (ThinkingPart, TextPart)):
                 current_stream = StreamingContent()
                 streaming_content.append(current_stream)
                 current_stream.type = "THINKING"
+                if isinstance(event.part, TextPart):
+                    current_stream.type = "TEXT"
                 current_stream.content = event.part.content
 
         if isinstance(event, PartDeltaEvent):
 
-            if isinstance(event.delta, ThinkingPartDelta):
+            if isinstance(event.delta, (ThinkingPartDelta, TextPartDelta)):
                 streaming_content[-1].content += event.delta.content_delta or ""
-        
+
         if isinstance(event, PartEndEvent):
 
-            if isinstance(event.part, ThinkingPart):
+            if isinstance(event.part, (ThinkingPart, TextPart)):
                 streaming_content[-1].content = event.part.content
-    
+
     with current_events.container():
         for item in streaming_content:
             if item.type == "THINKING":
                 with st.chat_message("assistant"):
-                    st.write(item.content)
+                    st.markdown(item.content)
+            if item.type == "TEXT":
+                if item.content.strip() != "":
+                    with st.chat_message("assistant"):
+                        st.markdown(item.content)
+
 
 async def handle_submit_async():
     user_prompt = st.session_state.prompt_box
