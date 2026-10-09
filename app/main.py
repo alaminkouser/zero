@@ -1,6 +1,7 @@
 import asyncio
 import streamlit as st
-from typing import Sequence
+from typing import Sequence, Literal
+from pydantic import BaseModel
 from pydantic_ai.messages import (
     ModelMessage,
     RetryPromptPart,
@@ -12,6 +13,7 @@ from pydantic_ai.messages import (
     PartStartEvent,
     PartDeltaEvent,
     PartEndEvent,
+    ThinkingPartDelta
 )
 from pydantic_ai.run import AgentRunResultEvent
 
@@ -69,12 +71,39 @@ processing = st.empty()
 
 error = st.empty()
 
+class StreamingContent(BaseModel):
+    type: Literal["THINKING", "TEXT", ""] = ""
+    content: str = ""
 
 def current_events_show(
     event_list: list[PartStartEvent | PartDeltaEvent | PartEndEvent],
 ):
-    current_events.write(event_list[-1])
+    streaming_content: list[StreamingContent] = []
+    for event in event_list:
+        if isinstance(event, PartStartEvent):
 
+            if isinstance(event.part, ThinkingPart):
+
+                current_stream = StreamingContent()
+                streaming_content.append(current_stream)
+                current_stream.type = "THINKING"
+                current_stream.content = event.part.content
+
+        if isinstance(event, PartDeltaEvent):
+
+            if isinstance(event.delta, ThinkingPartDelta):
+                streaming_content[-1].content += event.delta.content_delta or ""
+        
+        if isinstance(event, PartEndEvent):
+
+            if isinstance(event.part, ThinkingPart):
+                streaming_content[-1].content = event.part.content
+    
+    with current_events.container():
+        for item in streaming_content:
+            if item.type == "THINKING":
+                with st.chat_message("assistant"):
+                    st.write(item.content)
 
 async def handle_submit_async():
     user_prompt = st.session_state.prompt_box
