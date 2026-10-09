@@ -1,5 +1,4 @@
 import asyncio
-from pydantic_ai import InstructionPart
 import streamlit as st
 from typing import Sequence
 from pydantic_ai.messages import (
@@ -10,6 +9,9 @@ from pydantic_ai.messages import (
     TextPart,
     ToolCallPart,
     ToolReturnPart,
+    PartStartEvent,
+    PartDeltaEvent,
+    PartEndEvent,
 )
 from pydantic_ai.run import AgentRunResultEvent
 
@@ -18,7 +20,7 @@ from agents.main import agent
 st.set_page_config(
     page_title="ZERO",
     page_icon="🤖",
-    layout="centered",
+    layout="wide",
 )
 
 st.title("🤖", text_alignment="center", anchor=False)
@@ -30,8 +32,9 @@ if "message_list" not in st.session_state:
 for message in st.session_state.message_list:
     for part in message.parts:
         avatar = "human"
-        if type(part).__name__ != "UserPromptPart":
+        if not isinstance(part, UserPromptPart):
             avatar = "assistant"
+
         if isinstance(part, UserPromptPart):
             with st.chat_message(avatar):
                 st.markdown(part.content)
@@ -51,18 +54,26 @@ for message in st.session_state.message_list:
                     st.write(part)
         elif isinstance(part, ToolReturnPart):
             with st.chat_message(avatar):
-                st.write(part.content)
+                with st.expander("Expand/Collapse"):
+                    st.write(part.content)
         elif isinstance(part, RetryPromptPart):
             with st.chat_message(avatar):
                 st.markdown(part.content)
         else:
-            st.warning(type(part).__name__)
+            st.warning("E:MESSAGE_LIST:MESSAGE:PART\n\n" + type(part).__name__)
+
 
 user_prompt_part = st.empty()
 current_events = st.empty()
 processing = st.empty()
 
 error = st.empty()
+
+
+def current_events_show(
+    event_list: list[PartStartEvent | PartDeltaEvent | PartEndEvent],
+):
+    current_events.write(event_list[-1])
 
 
 async def handle_submit_async():
@@ -77,9 +88,16 @@ async def handle_submit_async():
             message_history=st.session_state.message_list,
             retries=10,
         ) as events:
+            current_event_list: list[PartStartEvent | PartDeltaEvent | PartEndEvent] = (
+                []
+            )
             async for event in events:
-                with current_events.chat_message("assistant"):
-                    st.write(event)
+
+                if isinstance(event, (PartStartEvent, PartDeltaEvent, PartEndEvent)):
+                    current_event_list.append(event)
+
+                    current_events_show(current_event_list)
+
                 if isinstance(event, AgentRunResultEvent):
                     st.session_state.message_list = event.result.all_messages()
 

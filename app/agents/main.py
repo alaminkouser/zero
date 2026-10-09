@@ -17,7 +17,6 @@ from tools.email_read_unseen import email_read_unseen
 from tools.status_put import status_put
 
 
-
 def agent() -> Agent:
     config_file = open("config.yaml", "r", encoding="utf-8")
     config = yaml.safe_load(config_file)
