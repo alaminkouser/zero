@@ -1,7 +1,8 @@
 import asyncio
+import json
 from pydantic_ai import TextPartDelta
 import streamlit as st
-from typing import Sequence, Literal
+from typing import Any, Sequence, Literal
 from pydantic import BaseModel
 from pydantic_ai.messages import (
     ModelMessage,
@@ -22,6 +23,19 @@ from pydantic_ai.messages import (
 from pydantic_ai.run import AgentRunResultEvent
 
 from agents.main import agent
+
+
+def to_json(value: Any) -> Any | None:
+    try:
+        if isinstance(value, str):
+            return json.loads(value)
+
+        json.dumps(value)
+        return value
+
+    except (TypeError, ValueError, OverflowError):
+        return None
+
 
 st.set_page_config(
     page_title="ZERO",
@@ -53,15 +67,17 @@ for message in st.session_state.message_list:
                     st.markdown(part.content.strip(), anchors=False)
         elif isinstance(part, ToolCallPart):
             with st.chat_message(avatar):
-                if part.args_as_dict():
-                    st.write(part.args_as_dict())
+                if to_json(part.args_as_dict()) != None:
+                    st.json(part.args_as_dict())
                 else:
-                    st.write(part.tool_name)
-                    st.write(part)
+                    st.write(part.args_as_dict())
         elif isinstance(part, ToolReturnPart):
             with st.chat_message(avatar):
                 with st.expander(part.tool_name):
-                    st.write(part.content)
+                    if to_json(part.content) != None:
+                        st.json(part.content)
+                    else:
+                        st.write(part.content)
         elif isinstance(part, RetryPromptPart):
             with st.chat_message(avatar):
                 st.markdown(part.content, anchors=False)
@@ -136,14 +152,27 @@ def current_events_show(
                 and item.function_tool_call_event != None
             ):
                 with st.chat_message("assistant"):
-                    st.write(item.function_tool_call_event.part.args)
+                    if to_json(item.function_tool_call_event.part.args) != None:
+                        st.json(item.function_tool_call_event.part.args)
+                    else:
+                        st.write(item.function_tool_call_event.part.args)
 
             if (
                 item.type == "FUNCTION_TOOL_RESULT_EVENT"
                 and item.function_tool_result_event != None
             ):
                 with st.chat_message("assistant"):
-                    st.write(item.function_tool_result_event.part.content)
+                    with st.expander(
+                        item.function_tool_result_event.part.tool_name
+                        or "tool_response"
+                    ):
+                        if (
+                            to_json(item.function_tool_result_event.part.content)
+                            != None
+                        ):
+                            st.json(item.function_tool_result_event.part.content)
+                        else:
+                            st.write(item.function_tool_result_event.part.content)
             if item.type == "THINKING":
                 with st.chat_message("assistant"):
                     st.markdown(item.content, anchors=False)
