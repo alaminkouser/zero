@@ -18,7 +18,6 @@ from pydantic_ai.messages import (
     ThinkingPartDelta,
     FunctionToolCallEvent,
     FunctionToolResultEvent,
-    FinalResultEvent,
 )
 from pydantic_ai.run import AgentRunResultEvent
 
@@ -43,7 +42,7 @@ st.set_page_config(
     layout="wide",
 )
 
-st.title("🤖", text_alignment="center", anchor=False)
+st.title("ZERO", text_alignment="center", anchor=False)
 
 if "message_list" not in st.session_state:
     message_list: Sequence[ModelMessage] = []
@@ -108,7 +107,6 @@ def current_events_show(
         | PartEndEvent
         | FunctionToolCallEvent
         | FunctionToolResultEvent
-        | FinalResultEvent
     ],
 ):
     streaming_content: list[StreamingContent] = []
@@ -200,7 +198,6 @@ async def handle_submit_async():
                 | PartEndEvent
                 | FunctionToolCallEvent
                 | FunctionToolResultEvent
-                | FinalResultEvent
             ] = []
             async for event in events:
                 if isinstance(
@@ -211,7 +208,6 @@ async def handle_submit_async():
                         PartEndEvent,
                         FunctionToolCallEvent,
                         FunctionToolResultEvent,
-                        FinalResultEvent,
                     ),
                 ):
                     current_event_list.append(event)
