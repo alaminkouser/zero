@@ -15,6 +15,9 @@ from pydantic_ai.messages import (
     PartDeltaEvent,
     PartEndEvent,
     ThinkingPartDelta,
+    FunctionToolCallEvent,
+    FunctionToolResultEvent,
+    FinalResultEvent,
 )
 from pydantic_ai.run import AgentRunResultEvent
 
@@ -74,15 +77,38 @@ error = st.empty()
 
 
 class StreamingContent(BaseModel):
-    type: Literal["THINKING", "TEXT", ""] = ""
+    type: Literal[
+        "THINKING", "TEXT", "FUNCTION_TOOL_CALL_EVENT", "FUNCTION_TOOL_RESULT_EVENT", ""
+    ] = ""
     content: str = ""
+    function_tool_call_event: FunctionToolCallEvent | None = None
+    function_tool_result_event: FunctionToolResultEvent | None = None
 
 
 def current_events_show(
-    event_list: list[PartStartEvent | PartDeltaEvent | PartEndEvent],
+    event_list: list[
+        PartStartEvent
+        | PartDeltaEvent
+        | PartEndEvent
+        | FunctionToolCallEvent
+        | FunctionToolResultEvent
+        | FinalResultEvent
+    ],
 ):
     streaming_content: list[StreamingContent] = []
     for event in event_list:
+        if isinstance(event, FunctionToolCallEvent):
+            current_stream = StreamingContent()
+            streaming_content.append(current_stream)
+            current_stream.type = "FUNCTION_TOOL_CALL_EVENT"
+            current_stream.function_tool_call_event = event
+
+        if isinstance(event, FunctionToolResultEvent):
+            current_stream = StreamingContent()
+            streaming_content.append(current_stream)
+            current_stream.type = "FUNCTION_TOOL_RESULT_EVENT"
+            current_stream.function_tool_result_event = event
+
         if isinstance(event, PartStartEvent):
 
             if isinstance(event.part, (ThinkingPart, TextPart)):
@@ -105,6 +131,19 @@ def current_events_show(
 
     with current_events.container():
         for item in streaming_content:
+            if (
+                item.type == "FUNCTION_TOOL_CALL_EVENT"
+                and item.function_tool_call_event != None
+            ):
+                with st.chat_message("assistant"):
+                    st.write(item.function_tool_call_event.part.args)
+
+            if (
+                item.type == "FUNCTION_TOOL_RESULT_EVENT"
+                and item.function_tool_result_event != None
+            ):
+                with st.chat_message("assistant"):
+                    st.write(item.function_tool_result_event.part.content)
             if item.type == "THINKING":
                 with st.chat_message("assistant"):
                     st.markdown(item.content, anchors=False)
@@ -126,14 +165,27 @@ async def handle_submit_async():
             message_history=st.session_state.message_list,
             retries=10,
         ) as events:
-            current_event_list: list[PartStartEvent | PartDeltaEvent | PartEndEvent] = (
-                []
-            )
+            current_event_list: list[
+                PartStartEvent
+                | PartDeltaEvent
+                | PartEndEvent
+                | FunctionToolCallEvent
+                | FunctionToolResultEvent
+                | FinalResultEvent
+            ] = []
             async for event in events:
-
-                if isinstance(event, (PartStartEvent, PartDeltaEvent, PartEndEvent)):
+                if isinstance(
+                    event,
+                    (
+                        PartStartEvent,
+                        PartDeltaEvent,
+                        PartEndEvent,
+                        FunctionToolCallEvent,
+                        FunctionToolResultEvent,
+                        FinalResultEvent,
+                    ),
+                ):
                     current_event_list.append(event)
-
                     current_events_show(current_event_list)
 
                 if isinstance(event, AgentRunResultEvent):
