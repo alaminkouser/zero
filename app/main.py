@@ -57,7 +57,7 @@ for message in st.session_state.message_list:
                     st.write(part)
         elif isinstance(part, ToolReturnPart):
             with st.chat_message(avatar):
-                with st.expander("Expand/Collapse"):
+                with st.expander(part.tool_name):
                     st.write(part.content)
         elif isinstance(part, RetryPromptPart):
             with st.chat_message(avatar):
