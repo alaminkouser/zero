@@ -2,7 +2,7 @@ import os
 from pydantic_ai import Agent
 from pydantic_ai.capabilities import LocalWorkspace
 from pydantic_ai_harness import Memory
-from pydantic_ai_harness.memory import InMemoryStore
+from pydantic_ai_harness.memory import FileStore
 from pydantic_ai_harness import Skills
 from pydantic_ai.models.openrouter import OpenRouterModel
 from pydantic_ai.providers.openrouter import OpenRouterProvider
@@ -31,7 +31,7 @@ def agent() -> Agent:
         ),
         capabilities=[
             LocalWorkspace("."),
-            Memory(InMemoryStore()),
+            Memory(FileStore(".memory")),
             Skills("app/skills"),
         ],
         tools=[current_datetime, email_read_unseen, status_put],

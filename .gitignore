@@ -2,5 +2,6 @@
 pydantic-ai-ui.html
 __pycache__
 .playwright-mcp
+.memory
 
 config.yaml
