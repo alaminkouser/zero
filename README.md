@@ -70,5 +70,3 @@ Open your browser and navigate to the URL printed by the script (by default `htt
 ## Adding Custom Tools
 
 To extend the agent, add a new module under `app/tools/` that follows the signature expected by **Pydantic AI** (a callable with a docstring describing its purpose). Then import the tool in `app/main.py` and include it in the `tools=` list when constructing the `Agent`.
-
-
