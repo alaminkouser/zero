@@ -39,12 +39,6 @@ def agent() -> Agent:
             MCPToolset(
                 StdioTransport(
                     command="npx",
-                    args=["-y", "@bitbonsai/mcpvault", os.getenv("NOTEBOOK_PATH", "")],
-                ),
-            ).prefixed("notebook"),
-            MCPToolset(
-                StdioTransport(
-                    command="npx",
                     args=["-y", "@sylphx/citra"],
                 ),
             ).prefixed("citra"),
