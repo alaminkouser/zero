@@ -27,6 +27,7 @@ from agents.main import agent
 def is_json(value: Any) -> bool:
     try:
         if isinstance(value, str):
+            json.loads(value)
             return True
 
         json.dumps(value)
