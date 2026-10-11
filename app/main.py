@@ -24,16 +24,16 @@ from pydantic_ai.run import AgentRunResultEvent
 from agents.main import agent
 
 
-def to_json(value: Any) -> Any | None:
+def is_json(value: Any) -> bool:
     try:
         if isinstance(value, str):
-            return json.loads(value)
+            return True
 
         json.dumps(value)
-        return value
+        return True
 
     except (TypeError, ValueError, OverflowError):
-        return None
+        return False
 
 
 st.set_page_config(
@@ -66,14 +66,14 @@ for message in st.session_state.message_list:
                     st.markdown(part.content.strip(), anchors=False)
         elif isinstance(part, ToolCallPart):
             with st.chat_message(avatar):
-                if to_json(part.args_as_dict()) != None:
+                if is_json(part.args_as_dict()):
                     st.json(part.args_as_dict())
                 else:
                     st.write(part.args_as_dict())
         elif isinstance(part, ToolReturnPart):
             with st.chat_message(avatar):
                 with st.expander(part.tool_name):
-                    if to_json(part.content) != None:
+                    if is_json(part.content):
                         st.json(part.content)
                     else:
                         st.write(part.content)
@@ -150,7 +150,7 @@ def current_events_show(
                 and item.function_tool_call_event != None
             ):
                 with st.chat_message("assistant"):
-                    if to_json(item.function_tool_call_event.part.args) != None:
+                    if is_json(item.function_tool_call_event.part.args):
                         st.json(item.function_tool_call_event.part.args)
                     else:
                         st.write(item.function_tool_call_event.part.args)
@@ -164,10 +164,7 @@ def current_events_show(
                         item.function_tool_result_event.part.tool_name
                         or "tool_response"
                     ):
-                        if (
-                            to_json(item.function_tool_result_event.part.content)
-                            != None
-                        ):
+                        if is_json(item.function_tool_result_event.part.content):
                             st.json(item.function_tool_result_event.part.content)
                         else:
                             st.write(item.function_tool_result_event.part.content)
