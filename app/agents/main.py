@@ -1,5 +1,6 @@
 import os
 from pydantic_ai import Agent
+from pydantic_ai.capabilities import LocalWorkspace
 from pydantic_ai_harness import Memory
 from pydantic_ai_harness.memory import FileStore
 from pydantic_ai_harness import Skills
@@ -29,6 +30,7 @@ def agent() -> Agent:
             provider=OpenRouterProvider(api_key=os.getenv("OPENROUTER_API_KEY", "")),
         ),
         capabilities=[
+            LocalWorkspace("."),
             Memory(FileStore(".memory")),
             Skills("app/skills"),
         ],
