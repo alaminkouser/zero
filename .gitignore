@@ -2,6 +2,7 @@
 pydantic-ai-ui.html
 __pycache__
 .playwright-mcp
+.logfire
 .memory
 
 config.yaml

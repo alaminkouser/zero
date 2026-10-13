@@ -1,6 +1,7 @@
 pydantic-ai-slim[mcp]
 pydantic-ai-slim[openrouter]
 pydantic-ai-harness[skills]
+logfire
 streamlit
 Jinja2
 PyYAML

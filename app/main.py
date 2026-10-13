@@ -20,8 +20,12 @@ from pydantic_ai.messages import (
     FunctionToolResultEvent,
 )
 from pydantic_ai.run import AgentRunResultEvent
+import logfire
 
 from agents.main import agent
+
+logfire.configure()
+logfire.instrument_pydantic_ai()
 
 
 def is_json(value: Any) -> bool:
