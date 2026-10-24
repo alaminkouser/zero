@@ -5,8 +5,8 @@ import streamlit as st
 from typing import Any, Sequence, Literal
 from pydantic import BaseModel
 from pydantic_ai.messages import (
+    InstructionBaselinePart,
     ModelMessage,
-    RetryPromptPart,
     UserPromptPart,
     ThinkingPart,
     TextPart,
@@ -82,9 +82,8 @@ for message in st.session_state.message_list:
                         st.json(part.content)
                     else:
                         st.write(part.content)
-        elif isinstance(part, RetryPromptPart):
-            with st.chat_message(avatar):
-                st.markdown(part.content, anchors=False)
+        elif isinstance(part, InstructionBaselinePart):
+            pass
         else:
             st.warning("E:MESSAGE_LIST:MESSAGE:PART\n\n" + type(part).__name__)
 
